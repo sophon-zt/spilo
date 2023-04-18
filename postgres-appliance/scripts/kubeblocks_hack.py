@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import sys
 import yaml
 
 from pyjavaproperties import Properties
@@ -63,6 +61,7 @@ def _process_pg_parameters(parameters, param_limits):
     return {name: value.strip("'") for name, value in (parameters or {}).items()
             if name in param_limits}
 
+
 def read_file_lines(file):
     ret = []
     for line in file.readlines():
@@ -73,27 +72,27 @@ def read_file_lines(file):
 
 
 def update_dynamic_config(props, config):
-    if not 'parameters' in config:
+    if 'parameters' not in config:
         config['parameters'] = {}
     config['parameters'].update(_process_pg_parameters(props.getPropertyDict(), _DYNAMIC_PARAMETERS))
 
 
 def update_local_config(props, config):
-    if not 'parameters' in config:
+    if 'parameters' not in config:
         config['parameters'] = {}
     config['parameters'].update(_process_pg_parameters(props.getPropertyDict(), _LOCAL_PARAMETERS))
 
 
 def prepare(config_file, local_config):
-    if not 'postgresql' in local_config:
+    if 'postgresql' not in local_config:
         local_config['postgresql'] = {}
 
-    if not 'bootstrap' in local_config:
+    if 'bootstrap' not in local_config:
         local_config['bootstrap'] = {}
 
     postgresql = local_config['postgresql']
     # postgresql['config_dir'] = _PG_CONF_DIR
-    if not 'custom_conf' in postgresql:
+    if 'custom_conf' not in postgresql:
         postgresql['custom_conf'] = config_file
 
     props = Properties()
@@ -101,7 +100,7 @@ def prepare(config_file, local_config):
     with open(config_file, 'r') as conf:
         props.load(conf)
 
-    if not 'dcs' in local_config['bootstrap']:
+    if 'dcs' not in local_config['bootstrap']:
         local_config['bootstrap']['dcs'] = {}
 
     dynamic_config = local_config['bootstrap']['dcs'].get('postgresql', {})
