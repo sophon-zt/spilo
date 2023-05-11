@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import yaml
+import logging
 
 from pyjavaproperties import Properties
 
 _DYNAMIC_PARAMETERS = [
     'archive_mode',
+    'archive_command',
     'archive_timeout',
     'wal_level',
     'wal_log_hints',
@@ -40,7 +42,7 @@ _DYNAMIC_PARAMETERS = [
 ]
 
 _LOCAL_PARAMETERS = [
-    'archive_command',
+    # 'archive_command',
     'shared_buffers',
     'logging_collector',
     'log_destination',
@@ -119,4 +121,4 @@ def prepare(config_file, local_config):
     update_local_config(props, postgresql)
 
     # print kubeblocks generated local_config
-    print(yaml.dump(local_config, default_flow_style=False))
+    logging.info('kubeblocks generate local configuration: \n%s', yaml.dump(local_config, default_flow_style=False))
