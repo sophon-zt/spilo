@@ -1071,7 +1071,8 @@ def main():
 
     user_config_copy = deepcopy(user_config)
     config = deep_update(user_config_copy, config)
-    archive_parameter = config['bootstrap']['dcs'].get('postgresql', {}).get('parameters', {}).get('archive_command', None)
+    archive_parameter = config['bootstrap']['dcs'].get('postgresql', {}).\
+        get('parameters', {}).get('archive_command', None)
     # delete 'archive_command' in local configuration
     if archive_parameter:
         tmp_config = config.get('postgresql', {}).get('parameters', {})
